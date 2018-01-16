@@ -6,6 +6,7 @@ package io.github.wonthechan.hufstable;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -189,7 +190,7 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
 
         courseListView = (ListView) rootView.findViewById(R.id.courseListView);
         courseLIst = new ArrayList<Course>();
-        courseListAdapter = new CourseListAdapter(getContext().getApplicationContext(), courseLIst);
+        courseListAdapter = new CourseListAdapter(getContext().getApplicationContext(), courseLIst, this);
         courseListView.setAdapter(courseListAdapter);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -372,6 +373,11 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                         String ccoursePersonnel; // 강의 제한 인원
                         String ccourseProfessor; // 강의 교수
                         String ccourseTimeRoom; // 강의 시간대
+                        Boolean ccourseSyllabus; // 강의계획서 유무
+
+                        String ccourseYear = paramYear;
+                        String ccourseTerm = paramTerm;
+                        char ccourseOrg = paramOrgSect;
 
                         for(int i = 1; i < elementsLecture.size(); i++)
                         {
@@ -413,8 +419,10 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
 
                             }
                             ccourseTimeRoom = elementsAttrLecture.get(13).text().substring(0, elementsAttrLecture.get(13).text().indexOf(')')+1);
+
+                            ccourseSyllabus = elementsAttrLecture.get(4).select("div").toString().contains("onclick");
                             // for test
-                            Course course = new Course(ccourseID,ccourseArea,ccourseGrade,ccourseTitle,ccourseTitleEnglish,ccourseCredit,ccoursePersonnel,ccourseProfessor,ccourseTimeRoom);
+                            Course course = new Course(ccourseYear, ccourseTerm, ccourseOrg, ccourseID,ccourseArea,ccourseGrade,ccourseTitle,ccourseTitleEnglish,ccourseCredit,ccoursePersonnel,ccourseProfessor,ccourseTimeRoom,ccourseSyllabus);
 
                             courseLIst.add(course);
                         }
@@ -448,6 +456,11 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                         String ccoursePersonnel; // 강의 제한 인원
                         String ccourseProfessor; // 강의 교수
                         String ccourseTimeRoom; // 강의 시간대
+                        Boolean ccourseSyllabus; // 강의계획서 유무
+
+                        String ccourseYear = paramYear;
+                        String ccourseTerm = paramTerm;
+                        char ccourseOrg = paramOrgSect;
 
                         for(int i = 1; i < elementsLecture.size(); i++)
                         {
@@ -491,8 +504,11 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
 
                             }
                             ccourseTimeRoom = elementsAttrLecture.get(13).text().substring(0, elementsAttrLecture.get(13).text().indexOf(')')+1);
+
+                            ccourseSyllabus = elementsAttrLecture.get(4).select("div").toString().contains("onclick");
+                            Log.e("TAG2", ccourseSyllabus.toString());
                             // for test
-                            Course course = new Course(ccourseID,ccourseArea,ccourseGrade,ccourseTitle,ccourseTitleEnglish,ccourseCredit,ccoursePersonnel,ccourseProfessor,ccourseTimeRoom);
+                            Course course = new Course(ccourseYear, ccourseTerm, ccourseOrg, ccourseID,ccourseArea,ccourseGrade,ccourseTitle,ccourseTitleEnglish,ccourseCredit,ccoursePersonnel,ccourseProfessor,ccourseTimeRoom,ccourseSyllabus);
 
                             courseLIst.add(course);
                         }
