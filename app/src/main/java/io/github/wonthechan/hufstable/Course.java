@@ -127,6 +127,9 @@ public class Course {
     }
 
     public Course(String courseYear, String courseTerm, char courseOrgSect, String courseID, String courseArea, String courseGrade, String courseTitle, String courseTitleEnglish, String courseCredit, String coursePersonnel, String courseProfessor, String courseTimeRoom, Boolean isSyllabus) {
+        this.courseYear = courseYear;
+        this.courseTerm = courseTerm;
+        this.courseOrgSect = courseOrgSect;
         this.courseID = courseID;
         this.courseArea = courseArea;
         this.courseGrade = courseGrade;

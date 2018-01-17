@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -22,10 +25,8 @@ public class CourseListAdapter extends BaseAdapter{
     private Context context;
     private List<Course> courseList;
     private Fragment parent;
-    private String year="";
-    private String term="";
-    private char orgSect;
-    private String id="";
+
+    SyllabusInfo syllabusInfo;
 
     public CourseListAdapter(Context context, List<Course> courseList, Fragment parent) {
         this.context = context;
@@ -60,7 +61,7 @@ public class CourseListAdapter extends BaseAdapter{
         TextView coursePersonnel = (TextView) v.findViewById(R.id.coursePersonnel);
         TextView courseProfessor = (TextView) v.findViewById(R.id.courseProfessor);
         TextView courseTimeRoom = (TextView) v.findViewById(R.id.courseTimeRoom);
-        Button syllabusButton = (Button) v.findViewById(R.id.syllabusButton);
+        final Button syllabusButton = (Button) v.findViewById(R.id.syllabusButton);
 
         courseGrade.setText(courseList.get(i).getCourseGrade() + "학년");
         courseTitle.setText(courseList.get(i).getCourseTitle());
@@ -96,29 +97,66 @@ public class CourseListAdapter extends BaseAdapter{
         else
         {
             syllabusButton.setVisibility(v.VISIBLE);
+            // 강의계획서 파싱할 시 필요한 정보들을 Button 뷰에 tag로 달아버리기
+            syllabusInfo = new SyllabusInfo(courseList.get(i).getCourseYear(), courseList.get(i).getCourseTerm(), courseList.get(i).getCourseOrgSect()+"", courseList.get(i).getCourseID());
+            syllabusButton.setTag(syllabusInfo);
         }
-
-        year = courseList.get(i).getCourseYear();
-        term = courseList.get(i).getCourseTerm();
-        orgSect = courseList.get(i).getCourseOrgSect();
-        id = courseList.get(i).getCourseID();
 
         syllabusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.e("TAG3", "계획서버튼클릭함");
+                SyllabusInfo si = (SyllabusInfo) syllabusButton.getTag();
+
+//                Log.e("TAG3",si.getYear());
+//                Log.e("TAG3",si.getTerm());
+//                Log.e("TAG3",si.getOrgSect());
+//                Log.e("TAG3",si.getId());
+
                 // 데이터를 다이얼로그로 보내는 코드
                 Bundle args = new Bundle();
-                args.putString("year", year);
-                args.putString("term", term);
-                args.putString("orgSect", orgSect+"");
-                args.putString("id", id);
+                args.putString("year", si.getYear());
+                args.putString("term", si.getTerm());
+                args.putString("orgSect", si.getOrgSect());
+                args.putString("id", si.getId());
                 //
                 Dialog dialog = new Dialog();
                 dialog.setArguments(args); //데이터 전달
                 dialog.show(parent.getActivity().getSupportFragmentManager(),"tag");
+                Log.e("TAG3", "onCLick종료");
             }
         });
 
         return v;
+    }
+
+    private class SyllabusInfo{
+        public String year;
+        public String term;
+        public String orgSect;
+        public String id;
+
+        public String getYear() {
+            return year;
+        }
+
+        public String getTerm() {
+            return term;
+        }
+
+        public String getOrgSect() {
+            return orgSect;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public SyllabusInfo(String year, String term, String orgSect, String id) {
+            this.year = year;
+            this.term = term;
+            this.orgSect = orgSect;
+            this.id = id;
+        }
     }
 }

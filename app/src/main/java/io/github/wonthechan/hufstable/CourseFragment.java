@@ -384,6 +384,7 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                             elementsAttrLecture = elementsLecture.get(i).select("td");
 
                             ccourseID = elementsAttrLecture.get(3).text();
+                            //ccourseID = elementsAttrLecture.get(4).select("div").attr("onclick").toString();
                             ccourseArea = elementsAttrLecture.get(1).text();
                             ccourseGrade = elementsAttrLecture.get(2).text();
                             // ccourseTitle = elementsAttrLecture.get(4).text().substring(0, elementsAttrLecture.get(4).text().lastIndexOf('('));
