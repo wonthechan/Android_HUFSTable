@@ -1,6 +1,7 @@
 package io.github.wonthechan.hufstable;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -49,10 +50,22 @@ public class SyllabusListAdapter extends BaseAdapter{
         TextView syllabusValue = (TextView) v.findViewById(R.id.syllabusValue);
 
         syllabusKey.setText(syllabusList.get(i).getSyllabusKey());
-        syllabusValue.setText(syllabusList.get(i).getSyllabusValue());
+        // 색깔 차등
+        if(syllabusList.get(i).getSyllabusKey().contains("Week"))
+        {
+            syllabusKey.setTextColor(Color.parseColor("#000080"));
+        }
+
+        if(syllabusList.get(i).getSyllabusValue().equals(""))
+        {
+            syllabusValue.setText("-");
+        }
+        else
+        {
+            syllabusValue.setText(syllabusList.get(i).getSyllabusValue());
+        }
 
         v.setTag(syllabusList.get(i).getSyllabusKey());
-
         return v;
     }
 }

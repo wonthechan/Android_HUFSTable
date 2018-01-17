@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="20dp"
-    android:background="@drawable/btn_bg_ex2">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:id="@+id/topBar"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="@color/colorGray">
+        android:background="#808080">
 
         <TextView
             android:layout_width="match_parent"
@@ -27,24 +24,25 @@
     <ListView
         android:id="@+id/syllabusListView"
         android:layout_width="match_parent"
-        android:layout_height="370dp"></ListView>
+        android:layout_height="400dp"
+        android:layout_below="@+id/topBar"
+        android:layout_marginTop="10dp"></ListView>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignRight="@+id/cancelButton"
-        android:background="@color/colorGray">
+        android:background="#DCDCDC"
+        android:layout_below="@+id/syllabusListView">
 
         <Button
             android:id="@+id/cancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
-            android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_bg_ex"
             android:text="닫기" />
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
