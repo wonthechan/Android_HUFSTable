@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 배경 -->
+    <item
+        android:drawable="@color/colorPrimary"/>
+    <!-- 로고 -->
+    <item android:drawable="@drawable/splash_logo"
+        android:height="100dp"
+        android:width="200dp"
+        android:id="@+id/splash_text"
+        android:gravity="center_vertical"/>
+    <item android:drawable="@drawable/splash_logo2"
+        android:height="40dp"
+        android:width="170dp"
+        android:top="70dp"
+        android:left="9dp"
+        android:gravity="center_vertical"/>
+</layer-list>

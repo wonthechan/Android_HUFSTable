@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/test1"
+        android:icon="@drawable/ic_chat_black_24dp"
+        android:title="test1" />
+
+    <item
+        android:id="@+id/test2"
+        android:icon="@drawable/ic_business_center_black_24dp"
+        android:title="test2" />
+
+    <item
+        android:id="@+id/test3"
+        android:icon="@drawable/ic_backup_black_24dp"
+        android:title="test3" />
+
+
+    <item android:title="계정 관리">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_share_black_24dp"
+                android:title="공유" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="로그아웃" />
+        </menu>
+    </item>
+
+</menu>

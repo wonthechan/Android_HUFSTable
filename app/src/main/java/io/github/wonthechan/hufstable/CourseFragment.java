@@ -419,7 +419,12 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                                 ccourseProfessor = elementsAttrLecture.get(10).text()+" "; // 외국인 교수일 경우
 
                             }
-                            ccourseTimeRoom = elementsAttrLecture.get(13).text().substring(0, elementsAttrLecture.get(13).text().indexOf(')')+1);
+                            //ccourseTimeRoom = elementsAttrLecture.get(13).text().substring(0, elementsAttrLecture.get(13).text().indexOf(')')+1);
+                            String test = elementsAttrLecture.get(13).toString();
+                            test = test.split("<br>")[0];
+                            test = test.split(">")[1];
+                            //test = test.substring(test.indexOf('>'), test.indexOf("<br>"));
+                            ccourseTimeRoom = test;
 
                             ccourseSyllabus = elementsAttrLecture.get(4).select("div").toString().contains("onclick");
                             // for test

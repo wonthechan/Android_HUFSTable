@@ -64,6 +64,14 @@ public class CourseListAdapter extends BaseAdapter{
         final Button syllabusButton = (Button) v.findViewById(R.id.syllabusButton);
 
         courseGrade.setText(courseList.get(i).getCourseGrade() + "학년");
+        if(courseList.get(i).getCourseGrade().equals(""))
+        {
+            courseGrade.setText("");
+        }
+        else
+        {
+            courseGrade.setText(courseList.get(i).getCourseGrade() + "학년");
+        }
         courseTitle.setText(courseList.get(i).getCourseTitle());
         if(courseList.get(i).getCourseTitleEnglish().equals(""))
         {
@@ -83,7 +91,7 @@ public class CourseListAdapter extends BaseAdapter{
         }
         else
         {
-            coursePersonnel.setText("제한인원 : " + courseList.get(i).getCoursePersonnel() + "명");
+            coursePersonnel.setText("정원 : " + courseList.get(i).getCoursePersonnel() + "명");
         }
         courseProfessor.setText(courseList.get(i).getCourseProfessor() + "교수님");
         courseTimeRoom.setText(courseList.get(i).getCourseTimeRoom() + "");
@@ -98,7 +106,7 @@ public class CourseListAdapter extends BaseAdapter{
         {
             syllabusButton.setVisibility(v.VISIBLE);
             // 강의계획서 파싱할 시 필요한 정보들을 Button 뷰에 tag로 달아버리기
-            syllabusInfo = new SyllabusInfo(courseList.get(i).getCourseYear(), courseList.get(i).getCourseTerm(), courseList.get(i).getCourseOrgSect()+"", courseList.get(i).getCourseID());
+            syllabusInfo = new SyllabusInfo(courseList.get(i).getCourseTitle(), courseList.get(i).getCourseYear(), courseList.get(i).getCourseTerm(), courseList.get(i).getCourseOrgSect()+"", courseList.get(i).getCourseID());
             syllabusButton.setTag(syllabusInfo);
         }
 
@@ -115,6 +123,7 @@ public class CourseListAdapter extends BaseAdapter{
 
                 // 데이터를 다이얼로그로 보내는 코드
                 Bundle args = new Bundle();
+                args.putString("title", si.getTitle());
                 args.putString("year", si.getYear());
                 args.putString("term", si.getTerm());
                 args.putString("orgSect", si.getOrgSect());
@@ -131,10 +140,15 @@ public class CourseListAdapter extends BaseAdapter{
     }
 
     private class SyllabusInfo{
+        public String title;
         public String year;
         public String term;
         public String orgSect;
         public String id;
+
+        public String getTitle() {
+            return title;
+        }
 
         public String getYear() {
             return year;
@@ -152,7 +166,8 @@ public class CourseListAdapter extends BaseAdapter{
             return id;
         }
 
-        public SyllabusInfo(String year, String term, String orgSect, String id) {
+        public SyllabusInfo(String title, String year, String term, String orgSect, String id) {
+            this.title = title;
             this.year = year;
             this.term = term;
             this.orgSect = orgSect;

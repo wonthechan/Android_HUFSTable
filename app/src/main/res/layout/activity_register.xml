@@ -5,7 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.github.wonthechan.hufstable.LoginActivity">
+    tools:context="io.github.wonthechan.hufstable.RegisterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,34 +15,24 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="225dp"
-            android:orientation="vertical"
-            android:background="#01294d">
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/hufs_logo_gold" />
+                android:src="@drawable/ic_people_black_24dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="한국외국어대학교"
-                android:textColor="@color/colorHUFSGold"
+                android:text="회원가입"
+                android:textColor="@color/colorPrimary"
                 android:textSize="25dp"
-                android:fontFamily="@font/hufs_m"
+                android:textStyle="bold"
                 android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="강의 시간표"
-                android:textColor="@color/colorHUFSGold"
-                android:fontFamily="@font/hufs_m"
-                android:textSize="18dp"/>
 
         </LinearLayout>
 
@@ -58,7 +48,7 @@
                 android:layout_centerHorizontal="true">
 
                 <EditText
-                    android:id="@+id/editTextId"
+                    android:id="@+id/editTextRegisterEmail"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/mPW"
@@ -78,7 +68,7 @@
                 android:layout_centerHorizontal="true">
 
                 <EditText
-                    android:id="@+id/editTextPassword"
+                    android:id="@+id/editTextRegisterPassword"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -90,7 +80,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/emailLoginButton"
+                android:id="@+id/emailRegisterButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/mPW"
@@ -98,48 +88,35 @@
                 android:layout_below="@+id/mPW"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/btn_bg_ex"
-                android:text="로그인"
+                android:text="회원가입"
                 android:textColor="@color/colorWhite"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="또는"
-                android:layout_alignLeft="@+id/mPW"
-                android:layout_alignStart="@+id/mPW"
-                android:layout_below="@+id/emailLoginButton"
-                android:textColor="@color/colorGray"
-                android:id="@+id/infoTV"
-                android:layout_marginTop="10dp"
-                android:gravity="center|center_horizontal" />
-
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/googleLoginButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/infoTV"
-                android:layout_alignLeft="@+id/mPW"
-                android:layout_alignStart="@+id/mPW"
-                android:text="구글계정으로 로그인"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold" />
+            <!--<com.google.android.gms.common.SignInButton-->
+                <!--android:id="@+id/googleLoginButton"-->
+                <!--android:layout_width="300dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/infoTV"-->
+                <!--android:layout_alignLeft="@+id/mPW"-->
+                <!--android:layout_alignStart="@+id/mPW"-->
+                <!--android:text="구글계정으로 로그인"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:textStyle="bold" />-->
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/registerTextView"
-                android:layout_alignBottom="@+id/registerTextView"
-                android:layout_alignLeft="@+id/googleLoginButton"
-                android:layout_alignStart="@+id/googleLoginButton"
-                android:layout_marginLeft="67dp"
-                android:layout_marginStart="67dp"
-                android:fontFamily="@string/app_name"
-                android:text="계정이 없으신가요?" />
+                android:layout_alignBaseline="@+id/goBackTextView"
+                android:layout_alignBottom="@+id/goBackTextView"
+                android:layout_alignLeft="@+id/emailRegisterButton"
+                android:layout_alignStart="@+id/emailRegisterButton"
+                android:layout_marginLeft="39dp"
+                android:layout_marginStart="39dp"
+                android:text="이미 계정이 있으신가요?" />
 
             <TextView
-                android:id="@+id/registerTextView"
+                android:id="@+id/goBackTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -149,8 +126,7 @@
                 android:layout_marginBottom="5dp"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:text="가입하기." />
-
+                android:text="로그인하기" />
 
         </RelativeLayout>
 

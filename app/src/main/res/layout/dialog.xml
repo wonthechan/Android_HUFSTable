@@ -12,12 +12,13 @@
         android:background="#808080">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/dialogTitle"
             android:text="강의 계획서"
             android:layout_gravity="center"
-            android:gravity="center"
             android:textSize="18dp"
+            android:layout_marginLeft="50dp"
             android:textColor="@color/colorWhite"/>
     </LinearLayout>
 
@@ -41,7 +42,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/btn_bg_ex"
+            android:background="@drawable/btn_bg_ex2"
             android:text="닫기" />
     </RelativeLayout>
 

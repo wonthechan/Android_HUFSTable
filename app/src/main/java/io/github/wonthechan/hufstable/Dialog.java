@@ -45,6 +45,7 @@ public class Dialog extends DialogFragment {
     }
 
     private ListView syllabusListView;
+    private TextView dialogTitle;
     private List<Syllabus> syllabusList;
     private SyllabusListAdapter syllabusListAdapter;
 
@@ -52,6 +53,7 @@ public class Dialog extends DialogFragment {
     private String paramTerm = "";
     private String paramOrgSect = "";
     private String paramID = "";
+    private String paramTitle = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -59,6 +61,7 @@ public class Dialog extends DialogFragment {
 
         Bundle args = getArguments();
 
+        paramTitle = args.getString("title");
         paramYear = args.getString("year");
         paramTerm = args.getString("term");
         paramOrgSect = args.getString("orgSect");
@@ -78,11 +81,13 @@ public class Dialog extends DialogFragment {
         // findFragmentByTag안의 문자열 값은 Fragment1.java에서 있던 문자열과 같아야 한다.
         //dialog.show(getActivity().getSupportFragmentManager(),"tag");
         fragment = getActivity().getSupportFragmentManager().findFragmentByTag("tag");
-
+        dialogTitle = (TextView) view.findViewById(R.id.dialogTitle);
+        dialogTitle.setText(paramTitle + " 강의 계획서");
         syllabusListView = (ListView) view.findViewById(R.id.syllabusListView);
         syllabusList = new ArrayList<Syllabus>();
         syllabusListAdapter = new SyllabusListAdapter(getContext().getApplicationContext(), syllabusList);
         syllabusListView.setAdapter(syllabusListAdapter);
+
 
         new BackgroundParseTask2().execute();
 
@@ -176,6 +181,7 @@ public class Dialog extends DialogFragment {
                 syllabusList.add(new Syllabus("교과목개요및학습목표", elementsLecture.get(13).text()));
                 syllabusList.add(new Syllabus("교수", elementsLecture.get(6).text()));
                 syllabusList.add(new Syllabus("연구실", elementsLecture.get(7).text()));
+                syllabusList.add(new Syllabus("강의시간", brToEnter(elementsLecture.get(8))));
                 syllabusList.add(new Syllabus("면담가능시간", elementsLecture.get(12).text()));
                 syllabusList.add(new Syllabus("Tel/E-mail", "종합정보시스템 로그인을 통해 확인하시기 바랍니다,"));
 
