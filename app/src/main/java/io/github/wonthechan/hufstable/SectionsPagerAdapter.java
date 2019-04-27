@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
+import android.view.ViewGroup;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -15,8 +16,14 @@ import android.util.Log;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+    private Fragment mCurrentFragment;
+
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
+    }
+
+    public Fragment getCurrentFragment() {
+        return mCurrentFragment;
     }
 
     @Override
@@ -39,6 +46,14 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             default:
                 return null;
         }
+    }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        if (getCurrentFragment() != object) {
+            mCurrentFragment = ((Fragment) object);
+        }
+        super.setPrimaryItem(container, position, object);
     }
 
     @Override

@@ -2,13 +2,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context="io.github.wonthechan.hufstable.ScheduleFragment">
 
     <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
+        android:id="@+id/statusTextView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="준비중" />
+        android:background="@color/colorPrimary"
+        android:text="2018년도 2학기 학부"
+        android:textColor="@color/colorHUFSGold" />
+
+    <LinearLayout
+        android:layout_below="@+id/statusTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="3dp"
+        android:background="@drawable/btn_bg_ex2">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:id="@+id/rv" />
+<!--
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/courseListView"
+            android:dividerHeight="1dp"
+            android:divider="@color/colorGray" />
+-->
+    </LinearLayout>
 
 </RelativeLayout>

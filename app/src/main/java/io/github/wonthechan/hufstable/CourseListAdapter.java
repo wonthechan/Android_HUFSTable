@@ -91,7 +91,7 @@ public class CourseListAdapter extends BaseAdapter{
         }
         else
         {
-            coursePersonnel.setText("정원 : " + courseList.get(i).getCoursePersonnel() + "명");
+            coursePersonnel.setText(courseList.get(i).getCoursePersonnel());
         }
         courseProfessor.setText(courseList.get(i).getCourseProfessor() + "교수님");
         courseTimeRoom.setText(courseList.get(i).getCourseTimeRoom() + "");

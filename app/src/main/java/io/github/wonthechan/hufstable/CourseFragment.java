@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.mancj.slideup.SlideUp;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -39,24 +42,7 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
      * The fragment argument representing the section number for this
      * fragment.
      */
-//    private static final String ARG_SECTION_NUMBER = "section_number";
-//
-//    public CourseFragment() {
-//    }
-//
-//    /**
-//     * Returns a new instance of this fragment for the given section
-//     * number.
-//     */
-//    public static CourseFragment newInstance(int sectionNumber) {
-//        Log.e("TAG", "CourseFragment");
-//        CourseFragment fragment = new CourseFragment();
-//        Bundle args = new Bundle();
-//        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
+    private View mView;
     private ArrayAdapter yearAdapter;
     private Spinner yearSpinner;
     private ArrayAdapter termAdapter;
@@ -70,13 +56,7 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
     private String studiesGubun = "";
     private String courseYear = "";
 
-    // tab_lang=K&type=&ag_ledg_year=2017&ag_ledg_sessn=1&ag_org_sect=T&gubun=1
-
-    // tab_lang=K&type=&ag_ledg_year=2018&ag_ledg_sessn=1&ag_org_sect=A&campus_sect=H2&gubun=1
-
-    // tab_lang=K&type=&ag_ledg_year=2018&ag_ledg_sessn=1&ag_org_sect=A&campus_sect=H1&gubun=1&ag_crs_strct_cd=AAR01_H1&ag_compt_fld_cd=301_H1
-
-    private String paramYear = "2018";
+    private String paramYear = "2019";
     private String paramTerm = "1"; // 1부터 시작하며 1학기, 여름계절학기, 2학기, 겨울계절학기 순
     private char paramOrgSect = 'A';
     private String paramCamSect = "H1"; // H1 은 서울캠퍼스, H2 는 글로벌 캠퍼스
@@ -95,7 +75,6 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
     private ListView courseListView;
     private CourseListAdapter courseListAdapter;
     private List<Course> courseLIst;
-
 
     RadioGroup campusGroup;
     RadioGroup studiesGroup;
@@ -128,15 +107,13 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
         // year 스피너
         yearAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.year, android.R.layout.simple_spinner_dropdown_item);
         yearSpinner.setAdapter(yearAdapter);
-
         // term 스피너
         termAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.univTerm, android.R.layout.simple_spinner_dropdown_item);
         termSpinner.setAdapter(termAdapter);
+        termSpinner.setSelection(0); // 지금은 2019-1학기니까
         // area 스피너
         areaAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.affiliation, android.R.layout.simple_spinner_dropdown_item);
         areaSpinner.setAdapter(areaAdapter);
-
-        //yearSpinner.setAdapter(termAdapter);
 
         // 기본적으로 4개의 스피너에 대하여 리스너를 달아준다.
         yearSpinner.setOnItemSelectedListener(this);
@@ -207,7 +184,6 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                 }
             }
         });
-
         return rootView;
     }
 
@@ -251,6 +227,7 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                         // 학부가 아니면 계절학기가 없으므로 term 스피너 업데이트.
                         termAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.gradTerm, android.R.layout.simple_spinner_dropdown_item);
                         termSpinner.setAdapter(termAdapter);
+                        termSpinner.setSelection(0); // 지금은 2019-1학기니까
                     }
                     else
                     {
@@ -258,6 +235,7 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                         // 원상태로 복귀
                         termAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.univTerm, android.R.layout.simple_spinner_dropdown_item);
                         termSpinner.setAdapter(termAdapter);
+                        termSpinner.setSelection(0); // 지금은 2019-1학기니까
                     }
                     new BackgroundParseTask().execute(1);
                 }
@@ -305,7 +283,6 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
         {
             asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             asyncDialog.setMessage("잠시만 기다리세요...");
-
             // show dialog
             asyncDialog.show();
             super.onPreExecute();
@@ -370,7 +347,7 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                         String ccourseTitle; // 강의 제목
                         String ccourseTitleEnglish; // 강의 영어 제목
                         String ccourseCredit; // 강의 학점
-                        String ccoursePersonnel; // 강의 제한 인원
+                        String ccoursePersonnel; // 강의 신청/제한인원
                         String ccourseProfessor; // 강의 교수
                         String ccourseTimeRoom; // 강의 시간대
                         Boolean ccourseSyllabus; // 강의계획서 유무
@@ -378,18 +355,25 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                         String ccourseYear = paramYear;
                         String ccourseTerm = paramTerm;
                         char ccourseOrg = paramOrgSect;
+                        String ccourseCampus;
+                        if(paramCamSect.equals("H1"))
+                        {
+                            ccourseCampus = "서울";
+                        }
+                        else
+                        {
+                            ccourseCampus = "글로벌";
+                        }
 
                         for(int i = 1; i < elementsLecture.size(); i++)
                         {
                             elementsAttrLecture = elementsLecture.get(i).select("td");
 
                             ccourseID = elementsAttrLecture.get(3).text();
-                            //ccourseID = elementsAttrLecture.get(4).select("div").attr("onclick").toString();
                             ccourseArea = elementsAttrLecture.get(1).text();
                             ccourseGrade = elementsAttrLecture.get(2).text();
-                            // ccourseTitle = elementsAttrLecture.get(4).text().substring(0, elementsAttrLecture.get(4).text().lastIndexOf('('));
-
                             ccourseTitle = elementsAttrLecture.get(4).select(".txt_navy").toString();
+
                             // gray8을 포함한다는것은 강의의 영어제목이 따로 있는것.
                             if(ccourseTitle.contains("gray8"))
                             {
@@ -409,7 +393,8 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                             }
 
                             ccourseCredit = elementsAttrLecture.get(11).text();
-                            ccoursePersonnel = elementsAttrLecture.get(14).text().substring(elementsAttrLecture.get(14).text().indexOf('/')+2, elementsAttrLecture.get(14).text().length());
+                            //ccoursePersonnel = elementsAttrLecture.get(14).text().substring(elementsAttrLecture.get(14).text().indexOf('/')+2, elementsAttrLecture.get(14).text().length());
+                            ccoursePersonnel = elementsAttrLecture.get(14).text();
                             if(elementsAttrLecture.get(10).text().contains("("))
                             {
                                 ccourseProfessor = elementsAttrLecture.get(10).text().substring(0,elementsAttrLecture.get(10).text().indexOf('(')); // 한국인 교수일 경우
@@ -419,16 +404,15 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                                 ccourseProfessor = elementsAttrLecture.get(10).text()+" "; // 외국인 교수일 경우
 
                             }
-                            //ccourseTimeRoom = elementsAttrLecture.get(13).text().substring(0, elementsAttrLecture.get(13).text().indexOf(')')+1);
-                            String test = elementsAttrLecture.get(13).toString();
-                            test = test.split("<br>")[0];
-                            test = test.split(">")[1];
-                            //test = test.substring(test.indexOf('>'), test.indexOf("<br>"));
-                            ccourseTimeRoom = test;
+                            ccourseTimeRoom = elementsAttrLecture.get(13).text().substring(0, elementsAttrLecture.get(13).text().indexOf(')')+1);
+                            if(ccourseTimeRoom.length() == 2){
+                                // 강의실이 정해지지 않은 경우 => 온라인강의
+                                ccourseTimeRoom = "온라인강의";
+                            }
 
                             ccourseSyllabus = elementsAttrLecture.get(4).select("div").toString().contains("onclick");
                             // for test
-                            Course course = new Course(ccourseYear, ccourseTerm, ccourseOrg, ccourseID,ccourseArea,ccourseGrade,ccourseTitle,ccourseTitleEnglish,ccourseCredit,ccoursePersonnel,ccourseProfessor,ccourseTimeRoom,ccourseSyllabus);
+                            Course course = new Course(ccourseCampus, ccourseYear, ccourseTerm, ccourseOrg, ccourseID,ccourseArea,ccourseGrade,ccourseTitle,ccourseTitleEnglish,ccourseCredit,ccoursePersonnel,ccourseProfessor,ccourseTimeRoom,ccourseSyllabus);
 
                             courseLIst.add(course);
                         }
@@ -467,6 +451,15 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                         String ccourseYear = paramYear;
                         String ccourseTerm = paramTerm;
                         char ccourseOrg = paramOrgSect;
+                        String ccourseCampus;
+                        if(paramCamSect.equals("H1"))
+                        {
+                            ccourseCampus = "서울";
+                        }
+                        else
+                        {
+                            ccourseCampus = "글로벌";
+                        }
 
                         for(int i = 1; i < elementsLecture.size(); i++)
                         {
@@ -475,9 +468,8 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                             ccourseID = elementsAttrLecture.get(3).text();
                             ccourseArea = elementsAttrLecture.get(1).text();
                             ccourseGrade = elementsAttrLecture.get(2).text();
-                            // ccourseTitle = elementsAttrLecture.get(4).text().substring(0, elementsAttrLecture.get(4).text().lastIndexOf('('));
-
                             ccourseTitle = elementsAttrLecture.get(4).select(".txt_navy").toString();
+
                             // gray8을 포함한다는것은 강의의 영어제목이 따로 있는것.
                             if(ccourseTitle.contains("gray8"))
                             {
@@ -499,7 +491,7 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                             ccourseTitle = ccourseTitle.substring(ccourseTitle.indexOf('>')+1, ccourseTitle.indexOf("<br>"));
 
                             ccourseCredit = elementsAttrLecture.get(11).text();
-                            ccoursePersonnel = elementsAttrLecture.get(14).text().substring(elementsAttrLecture.get(14).text().indexOf('/')+2, elementsAttrLecture.get(14).text().length());
+                            ccoursePersonnel = elementsAttrLecture.get(14).text();
                             if(elementsAttrLecture.get(10).text().contains("("))
                             {
                                 ccourseProfessor = elementsAttrLecture.get(10).text().substring(0,elementsAttrLecture.get(10).text().indexOf('(')); // 한국인 교수일 경우
@@ -510,11 +502,15 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
 
                             }
                             ccourseTimeRoom = elementsAttrLecture.get(13).text().substring(0, elementsAttrLecture.get(13).text().indexOf(')')+1);
+                            if(ccourseTimeRoom.length() == 2){
+                                // 강의실이 정해지지 않은 경우 => 온라인강의
+                                ccourseTimeRoom = "온라인강의";
+                            }
 
                             ccourseSyllabus = elementsAttrLecture.get(4).select("div").toString().contains("onclick");
                             Log.e("TAG2", ccourseSyllabus.toString());
                             // for test
-                            Course course = new Course(ccourseYear, ccourseTerm, ccourseOrg, ccourseID,ccourseArea,ccourseGrade,ccourseTitle,ccourseTitleEnglish,ccourseCredit,ccoursePersonnel,ccourseProfessor,ccourseTimeRoom,ccourseSyllabus);
+                            Course course = new Course(ccourseCampus, ccourseYear, ccourseTerm, ccourseOrg, ccourseID,ccourseArea,ccourseGrade,ccourseTitle,ccourseTitleEnglish,ccourseCredit,ccoursePersonnel,ccourseProfessor,ccourseTimeRoom,ccourseSyllabus);
 
                             courseLIst.add(course);
                         }
@@ -581,4 +577,6 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
             cancel(true);
         }
     }
+
+
 }

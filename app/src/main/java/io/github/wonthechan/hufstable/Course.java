@@ -8,6 +8,7 @@ import android.util.Log;
 
 public class Course {
 
+    String courseCampus; // 캠퍼스 (서울, 글로벌)
     String courseYear; // 강의 개설 연도
     String courseTerm; // 강의 개설 학기
     char courseOrgSect; // 학부, 대학원 코드
@@ -21,6 +22,14 @@ public class Course {
     String courseProfessor; // 강의 교수
     String courseTimeRoom; // 강의 시간대 와 강의실
     Boolean isSyllabus; // 강의계획서 존재 유무
+
+    public String getCourseCampus() {
+        return courseCampus;
+    }
+
+    public void setCourseCampus(String courseCampus) {
+        this.courseCampus = courseCampus;
+    }
 
     public String getCourseYear() {
         return courseYear;
@@ -126,7 +135,8 @@ public class Course {
         this.courseTitleEnglish = courseTitleEnglish;
     }
 
-    public Course(String courseYear, String courseTerm, char courseOrgSect, String courseID, String courseArea, String courseGrade, String courseTitle, String courseTitleEnglish, String courseCredit, String coursePersonnel, String courseProfessor, String courseTimeRoom, Boolean isSyllabus) {
+    public Course(String courseCampus, String courseYear, String courseTerm, char courseOrgSect, String courseID, String courseArea, String courseGrade, String courseTitle, String courseTitleEnglish, String courseCredit, String coursePersonnel, String courseProfessor, String courseTimeRoom, Boolean isSyllabus) {
+        this.courseCampus = courseCampus;
         this.courseYear = courseYear;
         this.courseTerm = courseTerm;
         this.courseOrgSect = courseOrgSect;

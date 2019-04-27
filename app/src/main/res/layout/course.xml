@@ -124,17 +124,15 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="5dp">
 
             <TextView
                 android:id="@+id/coursePersonnel"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:padding="3dp"
                 android:text="정원 : 140명"
                 android:textColor="#f92a3f" />
@@ -143,26 +141,29 @@
                 android:id="@+id/courseTimeRoom"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_gravity="center"
+                android:layout_toEndOf="@+id/coursePersonnel"
+                android:layout_toRightOf="@+id/coursePersonnel"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:padding="3dp"
                 android:text="수 1 2 (5313) 금 5 6 (5201)"
                 android:textColor="@color/colorGray" />
 
-
             <Button
                 android:id="@+id/syllabusButton"
                 android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginLeft="3dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/courseTimeRoom"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
                 android:background="@drawable/btn_bg_ex2"
-                android:gravity="center"
                 android:text="강의 계획서"
                 android:textColor="@color/colorGray"
                 android:textSize="12dp" />
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

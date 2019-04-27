@@ -28,11 +28,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.mancj.slideup.SlideUp;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provid e
+     * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
      * loaded fragment in memory. If this becomes too memory intensive, it
@@ -53,6 +54,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView nameTextView;
     private TextView emailTextView;
 
+    private SlideUp slideUp;
+    private View dim;
+    private View slideView;
+    private FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //slideView = findViewById(R.id.slideView);
+        //dim = findViewById(R.id.dim);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_content);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -78,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String userName = auth.getCurrentUser().getDisplayName();
         String userEmail = auth.getCurrentUser().getEmail();
-        if(userName.equals(""))
+        if(userName == null)
         {
             nameTextView.setText(userEmail.substring(0, userEmail.indexOf('@')));
         }
@@ -86,7 +95,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             nameTextView.setText(userName);
         }
-        emailTextView.setText(auth.getCurrentUser().getEmail());
+        //emailTextView.setText(auth.getCurrentUser().getEmail());
+        emailTextView.setText(userEmail);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -100,15 +110,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        slideView = findViewById(R.id.slideView);
+        dim = findViewById(R.id.dim);
 
+        slideUp = new SlideUp(slideView);
+        slideUp.hideImmediately();
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //dim.bringToFront();
+                //slideView.bringToFront();
+                mViewPager.setVisibility(View.GONE);
+                slideUp.animateIn();
+                fab.hide();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
             }
         });
+
+
+        slideUp.setSlideListener(new SlideUp.SlideListener() {
+            @Override
+            public void onSlideDown(float v) {
+                dim.setAlpha(1 - (v / 100));
+            }
+
+            @Override
+            public void onVisibilityChanged(int i) {
+                if (i == View.GONE) {
+                    fab.show();
+                    mViewPager.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+    }
+
+    public Fragment getVisibleFragment() {
+        for (Fragment fragment: getSupportFragmentManager().getFragments()) {
+            if (fragment.isVisible()) {
+                return ((Fragment)fragment);
+            }
+        }
+        return null;
     }
 
     @Override
@@ -142,15 +188,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed(){
-        // Main 화면에서 뒤로가기 버튼을 한번 누른 후 1.5초 이내로 또 버튼을 누르면 종료한다.
-        if(System.currentTimeMillis() - lastTimeBackPressed < 1500)
+        if(mViewPager.getVisibility() == View.GONE)
         {
-            //auth.signOut();
-            finish();
-            return;
+            slideUp.animateOut();
         }
-        Toast.makeText(this, "'뒤로' 버튼을 한 번 더 눌러 종료합니다.", Toast.LENGTH_SHORT).show();
-        lastTimeBackPressed = System.currentTimeMillis(); // 버튼을 처음 한번 눌렀을때의 시간을 저장
+        else
+        {
+            // Main 화면에서 뒤로가기 버튼을 한번 누른 후 1.5초 이내로 또 버튼을 누르면 종료한다.
+            if(System.currentTimeMillis() - lastTimeBackPressed < 1500)
+            {
+                //auth.signOut();
+                finish();
+                return;
+            }
+            Toast.makeText(this, "버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            lastTimeBackPressed = System.currentTimeMillis(); // 버튼을 처음 한번 눌렀을때의 시간을 저장
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
