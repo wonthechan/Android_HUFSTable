@@ -392,19 +392,19 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                                 ccourseTitle = ccourseTitle.replace("&amp;","&");
                             }
 
-                            ccourseCredit = elementsAttrLecture.get(11).text();
+                            ccourseCredit = elementsAttrLecture.get(12).text();
                             //ccoursePersonnel = elementsAttrLecture.get(14).text().substring(elementsAttrLecture.get(14).text().indexOf('/')+2, elementsAttrLecture.get(14).text().length());
-                            ccoursePersonnel = elementsAttrLecture.get(14).text();
-                            if(elementsAttrLecture.get(10).text().contains("("))
+                            ccoursePersonnel = elementsAttrLecture.get(15).text();
+                            if(elementsAttrLecture.get(11).text().contains("("))
                             {
-                                ccourseProfessor = elementsAttrLecture.get(10).text().substring(0,elementsAttrLecture.get(10).text().indexOf('(')); // 한국인 교수일 경우
+                                ccourseProfessor = elementsAttrLecture.get(11).text().substring(0,elementsAttrLecture.get(11).text().indexOf('(')); // 한국인 교수일 경우
                             }
                             else
                             {
-                                ccourseProfessor = elementsAttrLecture.get(10).text()+" "; // 외국인 교수일 경우
+                                ccourseProfessor = elementsAttrLecture.get(11).text()+" "; // 외국인 교수일 경우
 
                             }
-                            ccourseTimeRoom = elementsAttrLecture.get(13).text().substring(0, elementsAttrLecture.get(13).text().indexOf(')')+1);
+                            ccourseTimeRoom = elementsAttrLecture.get(14).text().substring(0, elementsAttrLecture.get(14).text().indexOf(')')+1);
                             if(ccourseTimeRoom.length() == 2){
                                 // 강의실이 정해지지 않은 경우 => 온라인강의
                                 ccourseTimeRoom = "온라인강의";
@@ -490,18 +490,18 @@ public class CourseFragment extends Fragment implements AdapterView.OnItemSelect
                             }
                             ccourseTitle = ccourseTitle.substring(ccourseTitle.indexOf('>')+1, ccourseTitle.indexOf("<br>"));
 
-                            ccourseCredit = elementsAttrLecture.get(11).text();
-                            ccoursePersonnel = elementsAttrLecture.get(14).text();
-                            if(elementsAttrLecture.get(10).text().contains("("))
+                            ccourseCredit = elementsAttrLecture.get(12).text();
+                            ccoursePersonnel = elementsAttrLecture.get(15).text();
+                            if(elementsAttrLecture.get(11).text().contains("("))
                             {
-                                ccourseProfessor = elementsAttrLecture.get(10).text().substring(0,elementsAttrLecture.get(10).text().indexOf('(')); // 한국인 교수일 경우
+                                ccourseProfessor = elementsAttrLecture.get(11).text().substring(0,elementsAttrLecture.get(11).text().indexOf('(')); // 한국인 교수일 경우
                             }
                             else
                             {
-                                ccourseProfessor = elementsAttrLecture.get(10).text()+" "; // 외국인 교수일 경우
+                                ccourseProfessor = elementsAttrLecture.get(11).text()+" "; // 외국인 교수일 경우
 
                             }
-                            ccourseTimeRoom = elementsAttrLecture.get(13).text().substring(0, elementsAttrLecture.get(13).text().indexOf(')')+1);
+                            ccourseTimeRoom = elementsAttrLecture.get(14).text().substring(0, elementsAttrLecture.get(14).text().indexOf(')')+1);
                             if(ccourseTimeRoom.length() == 2){
                                 // 강의실이 정해지지 않은 경우 => 온라인강의
                                 ccourseTimeRoom = "온라인강의";
