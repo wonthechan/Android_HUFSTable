@@ -36,24 +36,6 @@ public class ScheduleFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-//    private static final String ARG_SECTION_NUMBER = "section_number";
-//
-//    public CourseFragment() {
-//    }
-//
-//    /**
-//     * Returns a new instance of this fragment for the given section
-//     * number.
-//     */
-//    public static CourseFragment newInstance(int sectionNumber) {
-//        Log.e("TAG", "CourseFragment");
-//        CourseFragment fragment = new CourseFragment();
-//        Bundle args = new Bundle();
-//        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
     private RecyclerView rv;
     private LinearLayoutManager mLinearLayoutManager;
     private CourseListRecyclerAdapter courseListRecyclerAdapter;
@@ -72,7 +54,6 @@ public class ScheduleFragment extends Fragment {
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         courseLIst = new ArrayList<Course>();
         courseListRecyclerAdapter = new CourseListRecyclerAdapter(courseLIst);
-//        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(mLinearLayoutManager);
         rv.setAdapter(courseListRecyclerAdapter);
         rv.setItemAnimator(new DefaultItemAnimator());
