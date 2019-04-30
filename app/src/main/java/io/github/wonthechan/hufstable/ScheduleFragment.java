@@ -117,7 +117,7 @@ public class ScheduleFragment extends Fragment {
                         // 리스트 초기화
                         courseLIst.clear();
 
-                        String ccourseYear = "2018";
+                        String ccourseYear = "2019";
                         String ccourseTerm = "1";
                         char ccourseOrg = 'A';
                         String ccourseCampus = "서울";
