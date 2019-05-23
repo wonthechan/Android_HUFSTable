@@ -3,12 +3,9 @@ Android application for searching lectures of HUFS.(강의 및 계획서 조회 
 
 ## Demo
 Try it live on https://appetize.io/app/qwrx54nmmj1a48r3zct2vqh36g (hosted on appetize.io)
-![screenshot](./screenshot-2dolist.jpg)
 
 ## Screenshots
 ![screenshot_login](./2019-05-23 18-10-44 Screenshot.jpg)
-![screenshot_main](./2019-05-23 18-12-10 Screenshot.jpg)
-![screenshot_syllabus](./2019-05-23 18-12-42 Screenshot.jpg)
 
 ### Features
 - Each user should register and log-in
